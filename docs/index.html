@@ -1,0 +1,664 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-55V1E709SK"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    gtag('js', new Date());
+
+    gtag('config', 'G-55V1E709SK');
+  </script>
+
+  <meta charset="utf-8">
+  <meta name="description" content="Learning to Drive in New Cities Without Human Demonstrations.">
+  <meta name="keywords"
+    content="Autonomous Driving, Reinforcement Learning, Self-play, Simulation, Transfer Learning, Data-efficient Adaptation">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>NOMAD</title>
+  <link rel="icon" href="static/images/icon2.png" sizes="32x32" type="image/png">
+
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-PYVRSFMDRL"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+
+    function gtag() {
+      dataLayer.push(arguments);
+    }
+
+    gtag('js', new Date());
+
+    gtag('config', 'G-PYVRSFMDRL');
+  </script>
+
+  <link href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans|Castoro" rel="stylesheet">
+
+  <link rel="stylesheet" href="./static/css/bulma.min.css">
+  <link rel="stylesheet" href="./static/css/bulma-carousel.min.css">
+  <link rel="stylesheet" href="./static/css/bulma-slider.min.css">
+  <link rel="stylesheet" href="./static/css/fontawesome.all.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
+  <link rel="stylesheet" href="./static/css/index.css">
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script defer src="./static/js/fontawesome.all.min.js"></script>
+  <script src="./static/js/bulma-carousel.min.js"></script>
+  <script src="./static/js/bulma-slider.min.js"></script>
+  <script src="./static/js/index.js"></script>
+  <script src="./static/js/script.js"></script>
+
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+</head>
+
+<body>
+
+  <section class="hero">
+    <div class="hero-body">
+      <div class="container is-max-desktop">
+        <div class="columns is-centered">
+          <div class="column has-text-centered">
+            <h1 class="title is-1 publication-title">Learning to Drive in New Cities Without Human Demonstrations</h1>
+            <div class="is-size-5 publication-authors">
+              <span class="author-block">
+                <a href="https://zilinwang.notion.site/me">Zilin Wang</a><sup>†1,2</sup>,</span>
+              <span class="author-block">
+                <a href="https://saeedrahmani.github.io/">Saeed Rahmani</a><sup>†1,3</sup>,</span>
+              <span class="author-block">
+                <a href="https://www.daphne-cornelisse.com/">Daphne Cornelisse</a><sup>4</sup>,</span>
+              <span class="author-block">
+                <a href="https://bsarkar321.github.io/">Bidipta Sarkar</a><sup>1,2</sup>,</span>
+              <span class="author-block">
+                <a href="https://alexgoldie.github.io/">Alexander D. Goldie</a><sup>1,2</sup>,</span>
+              <span class="author-block">
+                <a href="https://www.jakobfoerster.com/">Jakob N. Foerster</a><sup>‡2</sup>,</span>
+              <span class="author-block">
+                <a href="https://www.cs.ox.ac.uk/people/shimon.whiteson/">Shimon Whiteson</a><sup>‡1</sup></span>
+            </div>
+
+            <!-- Author notes -->
+            <div class="is-size-7" style="margin-top: 0.5rem; font-style: italic; color: #666;">
+              <sup>†</sup>Core Contributor, <sup>‡</sup>Equal Supervision
+            </div>
+
+            <!-- affiliations -->
+            <div class="subtitle is-size-5">
+              <!-- <div class="is-size-5 publication-authors"> -->
+              <sup>1</sup> WhiRL, University of Oxford &nbsp;
+              <sup>2</sup> FLAIR, University of Oxford &nbsp;
+              <br>
+              <sup>3</sup> Delft University of Technology &nbsp;
+              <sup>4</sup> NYU Tandon School of Engineering &nbsp;
+            </div>
+
+            <div class="subtitle is-size-6" style="margin-top: 0.75rem;">
+              <div style="display: flex; align-items: center; justify-content: center; gap: 1.25rem; flex-wrap: nowrap;">
+                <img src="./static/images/oxford_logo.png" alt="Oxford" style="height: 80px; width: auto;">
+                <img src="./static/images/whirl_logo.png" alt="WhiRL" style="height: 80px; width: auto;">
+                <img src="./static/images/flair_logo.png" alt="FLAIR" style="height: 100px; width: auto;">
+                <img src="./static/images/tudelft_logo.png" alt="TU Delft" style="height: 80px; width: auto;">
+                <img src="./static/images/nyu_logo.png" alt="NYU" style="height: 80px; width: auto;">
+              </div>
+            </div>
+
+            <!-- <div class="subtitle is-size-5">
+              <div class="is-size-5 publication-authors"> -->
+              <!-- preprint
+            </div> -->
+
+            <div class="column has-text-centered">
+              <span class="link-block">
+                <a href="https://arxiv.org/abs/2602.15891" class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                    <i class="ai ai-arxiv"></i>
+                  </span>
+                  <span>arXiv</span>
+                </a>
+              </span>
+              <span class="link-block">
+                <a href="https://github.com/nomaddrive/nomad" class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                    <i class="fab fa-github"></i>
+                  </span>
+                  <span>Code</span>
+                </a>
+              </span>
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+    </div>
+    </div>
+  </section>
+
+
+
+
+  <!-- Challenge Section -->
+  <section class="hero is-light challenge-section">
+    <div class="hero-body">
+      <div class="container is-max-desktop">
+        <div class="has-text-centered">
+          <!-- <p class="challenge-intro">We challenge a central assumption in city transfer in autonomous driving:</p> -->
+          <h2 class="challenge-question"><em>How can we adapt driving policies to new cities without collecting additional human demonstrations from them?</em></h2>
+          <!-- <p class="challenge-answer">Our answer is <span class="highlight-yes">YES!</span></p> -->
+          <p class="challenge-explanation">
+            We show that self-play multi-agent reinforcement learning can adapt a driving policy to a substantially different target city using only the map and meta-information,
+            <em>without requiring any human demonstrations from that city</em>.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- NOMAD Logo -->
+  <section class="section" style="padding-top: 2rem; padding-bottom: 2rem;">
+    <div class="container is-max-desktop">
+      <div class="has-text-centered">
+        <img src="./static/images/logo.png" alt="NOMAD Driving" style="width: 50%; max-width: 400px; display: block; margin: 0 auto;">
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container is-max-desktop">
+      <!-- Abstract. -->
+      <div class="columns is-centered has-text-centered">
+        <div class="column is-four-fifths">
+          <h2 class="title is-3">Abstract</h2>
+          <div class="content has-text-justified">
+            <p>
+              While autonomous vehicles have achieved reliable performance within specific operating regions, 
+              their deployment to new cities remains costly and slow. 
+              A key bottleneck is the need to collect many human demonstration trajectories when adapting driving policies 
+              to new cities that differ from those seen in training in terms of road geometry, traffic rules, and interaction patterns. 
+              In this paper, we show that self-play multi-agent reinforcement learning can adapt a driving policy to 
+              a substantially different target city using only the map and meta-information, 
+              <span class="highlight-no-demos">without requiring any human demonstrations from that city</span>. 
+              We introduce <strong>NO</strong> data <strong>M</strong>ap-based self-play for <strong>A</strong>utonomous <strong>D</strong>riving (NOMAD), 
+              which enables policy adaptation in a simulator constructed based on the target-city map. 
+              Using <span class="highlight-simple-reward">a simple reward function</span>, NOMAD substantially improves both <span class="highlight-success">task success rate</span> and <span class="highlight-realism">trajectory realism</span> in target cities, 
+              demonstrating an effective and scalable alternative to data-intensive city-transfer methods.
+
+            </p>
+          </div>
+        </div>
+      </div>
+      <!--/ Abstract. -->
+      <!-- <div class="column is-four-fifths"></div>
+      <div class="has-text-centered">
+        <h2 class="title is-3">Video</h2>
+        <video controls>
+          <source src="static/videos/demo1.mp4" type="video/mp4">
+          Your browser does not support the video.
+        </video>
+      </div> -->
+      <!-- The following is the way to insert through link -->
+      <!-- <div class="publication-video">
+          <iframe width="560" height="315" src="https://www.youtube.com/embed/470hul75bSM?si=7F9NL8zWbU9GtqHb"
+            title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; 
+         encrypted-media; " allowfullscreen></iframe> -->
+    <!-- </div> -->
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container is-max-desktop">
+      <div class="columns is-centered has-text-centered">
+        <div class="column is-full-width">
+          <h2 class="title is-3">Qualitative Results</h2>
+          <div class="content has-text-justified">
+            <p>Below we show qualitative comparisons between zero-shot transferred policies and policies adapted by NOMAD across different scenarios:</p>
+            <div class="buttons has-addons is-centered qualitative-tabs" style="margin: 1rem 0 2rem; flex-wrap: wrap;">
+              <button class="button is-link is-light is-active" data-scenario="scenario-1">Scenario 1</button>
+              <button class="button is-link is-light" data-scenario="scenario-2">Scenario 2</button>
+              <button class="button is-link is-light" data-scenario="scenario-3">Scenario 3</button>
+              <button class="button is-link is-light" data-scenario="scenario-4">Scenario 4</button>
+              <button class="button is-link is-light" data-scenario="scenario-5">Scenario 5</button>
+            </div>
+
+            <!-- Video Pair 1 -->
+            <div class="qualitative-scenario is-active" id="scenario-1" style="margin-bottom: 3em;">
+              <h4 class="subtitle is-6"><strong>Scenario 1: Geometric mismatch (narrow road) under Boston-to-Singapore transfer.</strong></h4>
+              <div class="buttons has-addons is-centered qualitative-video-tabs" style="margin: 1rem 0 1.5rem; flex-wrap: wrap;">
+                <button class="button is-link is-light is-active" data-video="baseline">Zero-shot transfer</button>
+                <button class="button is-link is-light" data-video="nomad">NOMAD</button>
+              </div>
+              <div class="qualitative-video is-active" data-video="baseline">
+                <video controls style="width: 100%;">
+                  <source src="./static/videos/bostosg_narrowlane_bc.mp4" type="video/mp4">
+                  Your browser does not support the video.
+                </video>
+              </div>
+              <div class="qualitative-video" data-video="nomad">
+                <video controls style="width: 100%;">
+                  <source src="./static/videos/bostosg_narrowlane_nomad.mp4" type="video/mp4">
+                  Your browser does not support the video.
+                </video>
+              </div>
+              <p>
+                The zero-shot policy, trained in Boston, fails to account for the narrower lane geometry commonly found in Singapore and gradually drifts outside the drivable region, resulting in off-road behavior (yellow).
+                In contrast, NOMAD adapts to the target-city road geometry through map-based self-play and maintains stable lane-centering throughout the maneuver.
+                Blue denotes the controlled vehicle, the circle indicates the goal location, white boxes represent static vehicles, and yellow highlights collision with road boundaries.
+              </p>
+            </div>
+
+            <!-- Video Pair 2 -->
+            <div class="qualitative-scenario" id="scenario-2" style="margin-bottom: 3em;">
+              <h4 class="subtitle is-6"><strong>Scenario 2: Driving-side mismatch under Boston-to-Singapore transfer.</strong></h4>
+              <div class="buttons has-addons is-centered qualitative-video-tabs" style="margin: 1rem 0 1.5rem; flex-wrap: wrap;">
+                <button class="button is-link is-light is-active" data-video="baseline">Zero-shot transfer</button>
+                <button class="button is-link is-light" data-video="nomad">NOMAD</button>
+              </div>
+              <div class="qualitative-video is-active" data-video="baseline">
+                <video controls style="width: 100%;">
+                  <source src="./static/videos/bostosg_drivingside_bc.mp4" type="video/mp4">
+                  Your browser does not support the video.
+                </video>
+              </div>
+              <div class="qualitative-video" data-video="nomad">
+                <video controls style="width: 100%;">
+                  <source src="./static/videos/bostosg_drivingside_nomad.mp4" type="video/mp4">
+                  Your browser does not support the video.
+                </video>
+              </div>
+              <p>The zero-shot policy exhibits a systematic bias toward right-hand driving learned in the source city, leading to lane violation and collision in the left-hand traffic setting of Singapore.
+                  In contrast, NOMAD adapts its lane-keeping behavior through map-based self-play and consistently drives on the correct side of the road.
+                  Blue denotes the controlled vehicle, the circle indicates the goal location, white boxes represent static vehicles, and red and yellow highlights collision with vehicles and road boundaries, respectively.</p>
+            </div>
+
+            <!-- Video Pair 3 -->
+            <div class="qualitative-scenario" id="scenario-3" style="margin-bottom: 3em;">
+              <h4 class="subtitle is-6"><strong>Scenario 3: Driving-side mismatch under Singapore-to-Boston transfer.</strong></h4>
+              <div class="buttons has-addons is-centered qualitative-video-tabs" style="margin: 1rem 0 1.5rem; flex-wrap: wrap;">
+                <button class="button is-link is-light is-active" data-video="baseline">Zero-shot transfer</button>
+                <button class="button is-link is-light" data-video="nomad">NOMAD</button>
+              </div>
+              <div class="qualitative-video is-active" data-video="baseline">
+                <video controls style="width: 100%;">
+                  <source src="./static/videos/sgtobos_drivingside_bc.mp4" type="video/mp4">
+                  Your browser does not support the video.
+                </video>
+              </div>
+              <div class="qualitative-video" data-video="nomad">
+                <video controls style="width: 100%;">
+                  <source src="./static/videos/sgtobos_drivingside_nomad.mp4" type="video/mp4">
+                  Your browser does not support the video.
+                </video>
+              </div>
+              <p>The zero-shot policy retains a left-hand driving bias learned in the source city: vehicle 61 and vehicle 11 both tend to keep left, resulting in lane violations, collision, and off-road behavior in the right-hand traffic setting of Boston. 
+                In contrast, NOMAD adapts its lane-keeping behavior via map-based self-play and consistently drives on the correct side of the road.
+                Blue denotes the controlled vehicle, the circle indicates the goal location, white boxes represent static vehicles, and red and yellow highlights collision with vehicles and road boundaries, respectively.</p>
+            </div>
+
+            <!-- Video Pair 4 -->
+            <div class="qualitative-scenario" id="scenario-4" style="margin-bottom: 3em;">
+              <h4 class="subtitle is-6"><strong>Scenario 4: Cascading collision failure from a Boston-to-Singapore transfer scenario involving dense static obstacles.</strong></h4>
+              <div class="buttons has-addons is-centered qualitative-video-tabs" style="margin: 1rem 0 1.5rem; flex-wrap: wrap;">
+                <button class="button is-link is-light is-active" data-video="baseline">Zero-shot transfer</button>
+                <button class="button is-link is-light" data-video="nomad">NOMAD</button>
+              </div>
+              <div class="qualitative-video is-active" data-video="baseline">
+                <video controls style="width: 100%;">
+                  <source src="./static/videos/bostosg_closedloop_bc.mp4" type="video/mp4">
+                  Your browser does not support the video.
+                </video>
+              </div>
+              <div class="qualitative-video" data-video="nomad">
+                <video controls style="width: 100%;">
+                  <source src="./static/videos/bostosg_closedloop_nomad.mp4" type="video/mp4">
+                  Your browser does not support the video.
+                </video>
+              </div>
+              <p>The zero-shot policy fails to execute an early rightward avoidance maneuver and collides with the first static vehicle. Following the collision, it initiates a right-turn corrective action, whereas a leftward maneuver is required to avoid the second obstacle, leading to a cascading collision.
+                In contrast, NOMAD selects appropriate avoidance actions at both decision points, illustrating improved closed-loop decision making under target-city geometric and obstacle-layout shifts.
+                Blue denotes the controlled vehicle, the circle indicates the goal location, white boxes represent static vehicles, and red highlights collision with vehicles.</p>
+            </div>
+
+            <!-- Video Pair 5 -->
+            <div class="qualitative-scenario" id="scenario-5" style="margin-bottom: 3em;">
+              <h4 class="subtitle is-6"><strong>Scenario 5: Interaction mismatch frames from a Singapore-to-Boston transfer scenario involving multiple interacting vehicles.</strong></h4>
+              <div class="buttons has-addons is-centered qualitative-video-tabs" style="margin: 1rem 0 1.5rem; flex-wrap: wrap;">
+                <button class="button is-link is-light is-active" data-video="baseline">Zero-shot transfer</button>
+                <button class="button is-link is-light" data-video="nomad">NOMAD</button>
+              </div>
+              <div class="qualitative-video is-active" data-video="baseline">
+                <video controls style="width: 100%;">
+                  <source src="./static/videos/sgtobos_multiagent_bc.mp4" type="video/mp4">
+                  Your browser does not support the video.
+                </video>
+              </div>
+              <div class="qualitative-video" data-video="nomad">
+                <video controls style="width: 100%;">
+                  <source src="./static/videos/sgtobos_multiagent_nomad.mp4" type="video/mp4">
+                  Your browser does not support the video.
+                </video>
+              </div>
+              <p>The zero-shot policy exhibits miscalibrated interaction behavior: vehicle 18 approaches significantly faster than vehicle 19, leading to a collision, while vehicle 27 fails to yield appropriately to vehicle 31 at the intersection.
+                In contrast, NOMAD learns more balanced speed regulation and yielding behavior through map-based self-play, enabling safe and coordinated multi-vehicle interaction in the target city.
+                Blue denotes the controlled vehicle, the circle indicates the goal location, white boxes represent static vehicles, and red and yellow highlights collision with vehicles and road boundaries, respectively.</p>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+
+  <section class="section">
+    <div class="container is-max-desktop">
+      <!-- Concurrent Work. -->
+      <div class="columns is-centered has-text-centered">
+        <div class="column is-full-width">
+          <h2 class="title is-3">City Transfer in Autonomous Driving</h2>
+          <div class="content has-text-justified">
+            <img src="./static/images/teaser.png" style="width: 70%; display: block; margin: 0 auto;">
+            <p><strong>We revisit a core assumption (conclusion part) make sure this paper rock. Figure 1: City transfer in autonomous driving.</strong> <em>Top:</em> Zero-shot deployment of an imitation policy trained in a source city into a new city leads 
+              to performance degradation due to cross-city distribution shift.
+              <em>Bottom:</em> NOMAD adapts the same policy to the target city using only the target-city map and 
+              easily accessible meta-information, <em>without any human demonstrations</em>, by performing 
+              map-based self-play multi-agent reinforcement learning in a simulator of the new city.
+              This adaptation substantially improves the policy's success rate and realism in the new city.</p>
+
+          </div>
+        </div>
+      </div>
+      <!--/ Concurrent Work. -->
+
+    </div>
+  </section>
+
+
+
+  <section class="section">
+    <div class="container is-max-desktop">
+      <div class="columns is-centered has-text-centered">
+        <div class="column is-full-width">
+          <h2 class="title is-3">NOMAD Overview</h2>
+          <div class="content has-text-justified">
+            <img src="./static/images/nomad.png" style="width: 80%; display: block; margin: 0 auto;">
+            <p><strong>Figure 2: NOMAD Overview.</strong> Starting from a source-city imitation policy \(\pi^0\), NOMAD adapts it to a target city 
+              \(C\) using map segments \(m\sim \mathcal{M}_C\) and meta-information \(\mathcal{I}_C\).
+              A scenario generator samples initial states and goals that are loaded in a data-driven 
+              multi-agent simulator, yielding a simulator of \(C\).
+              The policy \(\pi_\theta\) is initialized from \(\pi^0\) and optimized via KL-regularized self-play MARL.
+              To ensure the adapted policy remains realistic while maximizing success, we use a minimal reward function (goal achievement and collision avoidance) coupled with a KL-divergence constraint that anchors the policy to the source-city human demonstrations.
+              Training checkpoints produce an adapted policy set \(\Pi^+(C)\), from which a deployment 
+              policy \(\pi^{\text{deploy}}\) is chosen based on practitioner preferences.
+            </p>
+
+            <!-- <h3 class="subtitle is-5"><strong>
+              Reward Function</strong></h3>
+            <p>
+              To demonstrate that NOMAD's effectiveness stems from the adaptation framework itself rather than reward tuning, we deliberately adopt a minimal reward formulation:
+            </p>
+            <p style="text-align: center; margin: 1.5em 0;">
+              \[r^i(s_t,a_t,s_{t+1})=1.0\times\mathbb{1}_{\mathcal{G}^i(s_{t+1})} - 0.75\times\mathbb{1}_{\mathcal{C}^i(s_{t+1})} - 0.75\times\mathbb{1}_{\mathcal{O}^i(s_{t+1})}\]
+            </p>
+            <p>
+              where \(\mathbb{1}(\cdot)\) is the indicator function. 
+              \(\mathcal{G}^i(s_t)\), \(\mathcal{C}^i(s_t)\), and \(\mathcal{O}^i(s_t)\) represent if the goal is reached, a collision occurs, and the car drives offroad for agent \(i\) at timestep \(t\), respectively..
+            </p>
+
+            <h3 class="subtitle is-5"><strong>Objective Function</strong></h3>
+            <p>
+              Given our minimal reward formulation, optimization without regularization could yield policies that complete goals but deviate from human-like driving patterns.
+                To retain useful knowledge from the source city and mitigate reward hacking, we regularize the learned policy toward the prior \(\pi^0\) using reverse Kullback--Leibler divergence. 
+                This choice penalizes assigning probability mass to actions deemed unlikely by the prior, thereby discouraging unnatural driving while allowing selective adaptation when required by the target city.
+                The regularized objective is:
+            </p>
+            <p style="text-align: center; margin: 1.5em 0;">
+              \[\max_{\theta}\; J(\theta) = J_{\text{PPO}}(\theta) - \lambda_\mathrm{KL}\cdot \mathbb{E}_{\pi_\theta}\!\left[\frac{1}{H}\sum_{t=0}^{H-1} D_{\mathrm{KL}}\!\left(\pi_\theta(\cdot|o_t)\,\|\,\pi^0(\cdot|o_t)\right)\right]\]
+            </p>
+            <p>
+              where \(J_{\text{PPO}}(\theta)\) is the proximal policy optimization objective, \(\lambda_\mathrm{KL}\) is the KL regularization weight, 
+              \(H\) is the episode horizon, and \(D_{\mathrm{KL}}\) is the Kullback-Leibler divergence between the learned policy \(\pi_\theta\) and the source policy \(\pi^0\).
+            </p> -->
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+    <section class="section">
+    <div class="container is-max-desktop">
+      <div class="columns is-centered has-text-centered">
+        <div class="column is-full-width">
+          <h2 class="title is-3">Quantitative Results</h2>
+          <div class="content has-text-justified">
+            <p>
+              For realism, we adopt the <a href="https://proceedings.neurips.cc/paper_files/paper/2023/hash/b96ce67b2f2d45e4ab315e13a6b5b9c5-Abstract-Datasets_and_Benchmarks.html">Waymo Open Sim Agents Challenge (WOSAC)</a> evaluation metric. 
+              WOSAC aggregates weighted components over kinematics (e.g., speed and acceleration), interaction features (e.g., time-to-collision and collisions), and map compliance (e.g., road departures).
+            </p>
+            <!-- Main Figure -->
+              <img src="./static/images/multi_city_frontier_comparison.png" style="width: 100%; display: block; margin: 0 auto;">
+                <p>
+                  <strong>Figure 3: Success--realism trade-offs under city transfer.</strong>
+                  We plot mean success rate versus mean realism meta score over 5 runs for three transfer settings:
+                  (a) Boston-to-Singapore (primary), (b) Singapore-to-Boston, and (c) Singapore-to-Pittsburgh.
+                  Each dot is a NOMAD training checkpoint, colored by the cumulative number of interaction steps; 
+                  the red dashed curve denotes the empirical Pareto frontier over NOMAD checkpoints.
+                  Stars and dashed curves denote reference policies and ablations: the zero-shot transfer behavior 
+                  cloning policy from the source city \(\pi^0\) (BC (Source)), behavior cloning with target-city 
+                  demonstrations (BC (Target)), BC pretrained, self-play with logged target-city scenarios 
+                  (BC (Target) + RL (Target)), BC pretrained, self-play with logged source-city scenarios 
+                  (BC (Source) + RL (Source)), and RL from scratch in the target city with generated scenarios (RL (Target)).
+                </p>
+
+            <!-- Results Table -->
+            <table class="table is-striped is-hoverable table-ruled">
+              <p><strong>Table 1: Success rate and realism meta score for representative baselines and NOMAD in closed-loop evaluation for Singapore.</strong> <em>\(\pi_d^{\text{expert}}\) denotes an oracle policy obtained 
+              by inferring actions from logged expert trajectories and discretizing them to match the action space; 
+              its realism meta score serves as an approximate upper bound under the current POSG formulation.</em></p>
+              <thead>
+                  <tr>
+                    <th>Policy</th>
+                    <th style="text-align: center;">Realism Meta Score</th>
+                    <th style="text-align: center;">Success Rate</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>\(\pi_d^{\text{expert}}\)</td>
+                    <td style="text-align: center;"><strong>0.8056</strong></td>
+                    <td style="text-align: center;"><strong>88.26%</strong></td>
+                  </tr>
+                  <tr>
+                    <td>Random</td>
+                    <td style="text-align: center;">0.4074</td>
+                    <td style="text-align: center;">4.30%</td>
+                  </tr>
+                  <tr>
+                    <td>Constant Velocity</td>
+                    <td style="text-align: center;">0.6147</td>
+                    <td style="text-align: center;">19.45%</td>
+                  </tr>
+                  <tr>
+                    <td>\(\pi^0\)</td>
+                    <td style="text-align: center;">0.6795</td>
+                    <td style="text-align: center;">42.25%</td>
+                  </tr>
+                  <tr>
+                    <td>BC (Singapore)</td>
+                    <td style="text-align: center;">0.7011</td>
+                    <td style="text-align: center;">55.49%</td>
+                  </tr>
+                  <tr>
+                    <td><strong>NOMAD Frontier</strong></td>
+                    <td style="text-align: center;"><strong>0.7570~0.7697</strong></td>
+                    <td style="text-align: center;"><strong>87.28%~94.27%</strong></td>
+                  </tr>
+                </tbody>
+            </table>
+
+            <div style="margin-top: 2em;">
+              <h3 class="subtitle is-5"><strong>Key Findings:</strong></h3>
+              <ul style="margin-left: 1.5em; line-height: 1.8;">
+                <li><strong>City transfer without demonstrations:</strong> NOMAD adapts a source-city behavior-cloning policy to a target city using only the target map and meta-information via self-play RL, achieving large gains in both success rate and realism versus zero-shot transfer.</li>
+                <li><strong>Pareto-frontier behavior:</strong> Training checkpoints produce a clear success–realism Pareto frontier that dominates both zero-shot BC and BC trained on limited target-city data (3,200 scenarios).</li>
+                <li><strong>Mild trade-off in practice:</strong> Large success improvements can be achieved with only small realism drops, making simple deployment choices like "pick the highest-success checkpoint" often sufficient.</li>
+                <li><strong>Behavioral priors matter:</strong> Pure map-based self-play achieves high success but lower realism; BC initialization and KL-regularization improve the success–realism trade-off.</li>
+                <li><strong>Target-city map is necessary:</strong> Self-play in the source city alone is far worse than NOMAD, indicating adaptation needs target-city geometry and topology.</li>
+                <li><strong>Comparison to demonstration-based training:</strong> Target-city demonstration-based training is only modestly better than NOMAD, suggesting NOMAD recovers most gains normally attributed to target-city data.</li>
+                <li><strong>Generalization across transfers:</strong> NOMAD yields strong improvements across Boston→Singapore, Singapore→Boston, and Singapore→Pittsburgh with shared reward and hyperparameters.</li>
+              </ul>
+            </div>
+
+            <!-- <div style="margin-top: 2em;">
+              <img src="./static/images/kl_comparison_frontier.png" style="width: 60%; display: block; margin: 0 auto;">
+              <p>
+                <strong>Figure 4: Pareto frontiers of success rate versus realism meta score for different KL weights.</strong>
+                Smaller KL weights favor higher success at the cost of realism, while larger KL weights encourage more realistic behaviors but constrain success rate. The results reveal that the values of \(\lambda_{\text{KL}}\) at around \(0.08\) achieve the best balance. We use the \(\lambda_{\text{KL}}=0.08\) for all city pairs.
+              </p>
+            </div> -->
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+<!-- Moved Qualitative Results -->
+
+
+
+  <!-- <section class="section">
+    <div class="container is-max-desktop">
+      Abstract. -->
+      <!-- <div class="columns is-centered has-text-centered">
+        <div class="column is-full-width">
+          <h2 class="title is-3">Simulation Results</h2>
+          <div class="content has-text-justified">
+
+            <figure>
+              <video controls>
+                <source src="static/videos/parking_lot.mp4" type="video/mp4">
+                Your browser does not support the video.
+              </video>
+              <figcaption> <strong>Parking Lot: </strong> The busy parking lot scenario shown in the main paper.
+              </figcaption>
+            </figure>
+            <div class="column is-four-fifths"></div> -->
+            <!-- <figure>
+              <video controls>
+                <source src="static/videos/ped_cyc.mp4" type="video/mp4">
+                Your browser does not support the video.
+              </video>
+              <figcaption> <strong>Pedestrians and Cyclists: </strong> Interesting behaviors for pedestrians and
+                cyclists.
+              </figcaption>
+            </figure>
+            <div class="column is-four-fifths"></div>
+            <-- <figure>
+              <video controls>
+                <source src="static/videos/lane_changing.mp4" type="video/mp4">
+                Your browser does not support the video.
+              </video>
+              <figcaption> <strong>Lane Changing: </strong> Lane-changing scenario involving interactions between
+                multiple agents.
+              </figcaption>
+            </figure> -->
+            <!-- <div class="column is-four-fifths"></div> -->
+            <!-- <figure>
+              <video controls>
+                <source src="static/videos/bc_compounding_error.mp4" type="video/mp4">
+                Your browser does not support the video.
+              </video>
+              <figcaption> <strong>Compounding Errors Suffered by BC Policies: </strong> This video provides a
+                real-world
+                example of covariate shift, demonstrating how the BC policy suffers from compounding errors.
+              </figcaption>
+            </figure>
+            <div class="column is-four-fifths"></div> -->
+            <!-- <figure>
+              <video controls>
+                <source src="static/videos/more_behaviors.mp4" type="video/mp4">
+                Your browser does not support the video.
+              </video>
+              <figcaption> <strong>More Behaviors: </strong> If you have time, enjoy additional interesting behaviors
+                generated by
+                our model. These include exiting parking lots, making U-turns, stopping at stop signs, obeying traffic
+                lights, near-accident scenarios, and more.
+              </figcaption>
+            </figure>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section> -->
+
+
+  <section class="section">
+    <div class="container is-max-desktop">
+      <div class="columns is-centered">
+        <div class="column is-full-width">
+          <h3 class="title is-5">Future Work</h3>
+          <div class="content has-text-justified">
+            <p>
+              <strong>1. Driving Culture:</strong> Differences in driving culture and social conventions across cities and countries remain a fundamental challenge for policy transfer, underscoring the need for richer representations of interaction norms that go beyond geometric map structure alone.
+            </p>
+
+            <p>
+              <strong>2. Reward Function Design:</strong> While KL regularization can partially mitigate the loss of kinematic realism, explicit kinematics-aware reward design may still be necessary to fully capture realistic driving behavior.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <section class="section" id="BibTeX">
+    <div class="container is-max-desktop content">
+      <h2 class="title">BibTeX</h2>
+
+      <pre><code>@inproceedings{wang2026learning,
+        title = {Learning to Drive in New Cities Without Human Demonstrations},
+        author = {Wang, Zilin and Rahmani, Saeed and Cornelisse, Daphne and Sarkar, Bidipta and Goldie, Alexander David and Foerster, Jakob Nicolaus and Whiteson, Shimon},
+        journal = {arXiv preprint arXiv: 2602.15891},
+        year = {2026},
+      }
+</code></pre>
+
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="container">
+      <div class="content has-text-centered">
+        <!-- <a class="icon-link" href="">
+          <i class="fas fa-file-pdf"></i>
+        </a> -->
+        <!-- <a class="icon-link" href="" class="external-link" disabled>
+          <i class="fab fa-github"></i> -->
+        </a>
+      </div>
+      <div class="columns is-centered">
+        <div class="column is-8">
+          <div class="content">
+            <p>
+              This website is licensed under a <a rel="license"
+                href="http://creativecommons.org/licenses/by-sa/4.0/">Creative
+                Commons Attribution-ShareAlike 4.0 International License</a>.
+            </p>
+            <p>
+              We thank the authors of <a href="https://nerfies.github.io/">Nerfies</a> that kindly open sourced the
+              template of this website.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+</body>
+
+</html>
