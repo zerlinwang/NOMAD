@@ -1,4 +1,19 @@
-This is the official implementation of *[Learning to Drive in New Cities Without Human Demonstrations](https://nomaddrive.github.io/).*
+<div align="center">
+
+# Learning to Drive in New Cities Without Human Demonstrations
+
+**NeurIPS 2026**
+
+[![Project Page](https://img.shields.io/badge/Project-Page-blue)](https://zerlinwang.github.io/NOMAD/)
+[![arXiv](https://img.shields.io/badge/arXiv-2602.15891-b31b1b)](https://arxiv.org/abs/2602.15891)
+[![Dataset](https://img.shields.io/badge/%F0%9F%A4%97%20Dataset-NOMAD-yellow)](https://huggingface.co/datasets/saeedrmd/NOMAD)
+
+<img src="docs/static/images/qualitative_sg2bos.gif" width="600" alt="Zero-shot transfer vs. NOMAD under Singapore-to-Boston transfer">
+
+</div>
+
+This is the official implementation of **NOMAD** (**NO** data **M**ap-based self-play for **A**utonomous **D**riving), which adapts a driving policy to a new city using only the target-city map and meta-information, without any human demonstrations from that city.
+Above: under Singapore-to-Boston transfer, (a) the zero-shot policy keeps driving on the left, causing collisions and off-road events, while (b) NOMAD keeps to the right and all vehicles reach their goals.
 
 ## Environment Configuration
 ### Compile Docker image
@@ -10,7 +25,7 @@ DOCKER_BUILDKIT=1 docker build --build-arg USE_CUDA=true --tag gpudrive:latest -
 # Run Docker container
 docker run --gpus all -it --rm --shm-size=20G -v ${PWD}:/workspace gpudrive:latest /bin/bash
 # Build gpudrive
-mkdir build
+mkdir build && cd build
 cmake .. -DCMAKE_BUILD_TYPE=Release -DCMAKE_POLICY_VERSION_MINIMUM=3.5 && find external -type f -name "*.tar" -delete
 make -j
 ```
@@ -35,7 +50,7 @@ scenariomax-convert \
     --num_workers 16 \
     --nuplan_scenario_duration 15.0
 ```
-See `conversion/docs/nuplan_to_gpudrive.md` for the full schema and CLI options.
+See `conversion/README.md` and `conversion/docs/DATASETS.md` for the full schema and CLI options.
 
 ### 2. Filter to valid scenarios (`filtering/`)
 A scenario is kept only if it has no off-road incidents, runs for more than 5
@@ -67,17 +82,20 @@ python baselines/bcsp/ppo_finetuning.py
 ```
 ## WOSAC Evaluation
 ```
-python baselines/eval/wosac_evaluation.py
+python baselines/eval/wosac_evaluate.py
 ```
+
+## Project Page
+The source of the [project page](https://zerlinwang.github.io/NOMAD/) lives in [`docs/`](docs/) and is served with GitHub Pages.
 
 ---
 If you find this repo helpful, don't forget to give us a star!
 If this repo helps your research, please cite this work:
 ```
-@article{wang2026learning,
+@inproceedings{wang2026learning,
   title={Learning to Drive in New Cities Without Human Demonstrations},
   author={Wang, Zilin and Rahmani, Saeed and Cornelisse, Daphne and Sarkar, Bidipta and Goldie, Alexander David and Foerster, Jakob Nicolaus and Whiteson, Shimon},
-  journal={arXiv preprint arXiv:2602.15891},
+  booktitle={Advances in Neural Information Processing Systems},
   year={2026}
 }
 
