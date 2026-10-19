@@ -1,24 +1,5 @@
 window.HELP_IMPROVE_VIDEOJS = false;
 
-var INTERP_BASE = "./static/interpolation/stacked";
-var NUM_INTERP_FRAMES = 240;
-
-var interp_images = [];
-function preloadInterpolationImages() {
-  for (var i = 0; i < NUM_INTERP_FRAMES; i++) {
-    var path = INTERP_BASE + '/' + String(i).padStart(6, '0') + '.jpg';
-    interp_images[i] = new Image();
-    interp_images[i].src = path;
-  }
-}
-
-function setInterpolationImage(i) {
-  var image = interp_images[i];
-  image.ondragstart = function() { return false; };
-  image.oncontextmenu = function() { return false; };
-  $('#interpolation-image-wrapper').empty().append(image);
-}
-
 
 $(document).ready(function() {
     // Check for click events on the navbar burger icon
@@ -61,27 +42,22 @@ $(document).ready(function() {
       }
     }
 
-    /*var player = document.getElementById('interpolation-video');
-    player.addEventListener('loadedmetadata', function() {
-      $('#interpolation-slider').on('input', function(event) {
-        console.log(this.value, player.duration);
-        player.currentTime = player.duration / 100 * this.value;
-      })
-    }, false);*/
-    preloadInterpolationImages();
-
-    $('#interpolation-slider').on('input', function(event) {
-      setInterpolationImage(this.value);
-    });
-    setInterpolationImage(0);
-    $('#interpolation-slider').prop('max', NUM_INTERP_FRAMES - 1);
-
     if (window.bulmaSlider) {
       bulmaSlider.attach();
     }
 
     const scenarioButtons = document.querySelectorAll('.qualitative-tabs .button');
     const scenarios = document.querySelectorAll('.qualitative-scenario');
+
+    const playActiveVideo = (scenario) => {
+      const video = scenario.querySelector('.qualitative-video.is-active video');
+      if (video) {
+        const playing = video.play();
+        if (playing) {
+          playing.catch(() => {});
+        }
+      }
+    };
 
     const resetScenarioVideos = (scenario) => {
       const videoButtons = scenario.querySelectorAll('.qualitative-video-tabs .button');
@@ -122,6 +98,7 @@ $(document).ready(function() {
           if (target) {
             target.classList.add('is-active');
             resetScenarioVideos(target);
+            playActiveVideo(target);
           }
         });
       });
@@ -151,8 +128,21 @@ $(document).ready(function() {
             const target = scenario ? scenario.querySelector(`.qualitative-video[data-video="${targetVideo}"]`) : null;
             if (target) {
               target.classList.add('is-active');
+              playActiveVideo(scenario);
             }
           });
+        });
+      });
+    }
+
+    const copyButton = document.querySelector('.bibtex-copy');
+    const bibtex = document.getElementById('bibtex-entry');
+    if (copyButton && bibtex && navigator.clipboard) {
+      copyButton.addEventListener('click', () => {
+        navigator.clipboard.writeText(bibtex.textContent).then(() => {
+          const label = copyButton.querySelector('span:last-child');
+          label.textContent = 'Copied';
+          setTimeout(() => { label.textContent = 'Copy'; }, 1500);
         });
       });
     }

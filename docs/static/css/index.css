@@ -353,8 +353,56 @@ body {
 }
 
 .qualitative-scenario video {
-  width: 100%;
+  display: block;
+  width: min(100%, calc(80vh * var(--ar, 16 / 9)));
+  aspect-ratio: var(--ar, 16 / 9);
   height: auto;
+  margin: 0 auto;
+  background: #fff;
+}
+
+.venue-badge {
+  display: inline-block;
+  margin: 0.25rem 0 1rem;
+  padding: 0.3rem 1.1rem;
+  border-radius: 999px;
+  background: #671372;
+  color: #fff;
+  font-family: 'Google Sans', sans-serif;
+  font-size: 1.25rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+}
+
+.affiliation-logos {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+}
+
+.affiliation-logos img {
+  width: auto;
+}
+
+.legend-swatch {
+  display: inline-block;
+  width: 0.8em;
+  height: 0.8em;
+  margin-right: 0.25em;
+  border-radius: 2px;
+  vertical-align: baseline;
+}
+
+.bibtex-wrapper {
+  position: relative;
+}
+
+.bibtex-copy {
+  position: absolute;
+  top: 0.5rem;
+  right: 0.5rem;
 }
 
 .qualitative-video {
@@ -460,4 +508,23 @@ body {
 .highlight-realism {
   font-weight: 600;
   color: #6a1b9a;
+}
+
+.bibtex-wrapper pre {
+  white-space: pre-wrap;
+  word-break: break-word;
+  padding-right: 5.5rem;
+}
+
+@media screen and (max-width: 768px) {
+  .publication-title {
+    font-size: 2rem !important;
+    word-break: normal;
+  }
+  .venue-badge {
+    font-size: 1rem;
+  }
+  .affiliation-logos img {
+    height: 44px !important;
+  }
 }

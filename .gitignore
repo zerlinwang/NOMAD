@@ -268,3 +268,6 @@ data/imitation_data/*
 data_utils/*
 visualize_results/*.png
 visualize_results/*.pdf.DS_Store
+
+# Project page media
+!docs/static/videos/
